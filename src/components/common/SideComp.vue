@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="everyday-problem">
-            <span>🎉每日一题🎉</span>
+            <span>🎉每日一题</span>
         </div>
     </div>
 </template>

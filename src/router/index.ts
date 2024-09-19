@@ -18,6 +18,17 @@ const router = createRouter({
             path: '/login',
             name: 'login',
             component: () => import('@/layout/LoginLayout.vue')
+        },
+        {
+            path: '/fullPage',
+            name: 'fullPage',
+            component: () => import('@/layout/FullPageLayout.vue'),
+            children: [
+                {
+                    path: "/uploadProblem",
+                    component: () => import("@/components/manage/UploadProblemComp.vue")
+                }
+            ]
         }
     ]
 })

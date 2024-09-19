@@ -1,4 +1,5 @@
 <template>
+    
     <div class="top-bar">
         <TopBarComp></TopBarComp>
     </div>
@@ -7,10 +8,9 @@
             <div class="main-container">
                 <router-view></router-view>
             </div>
-
-            <div class="sider-container">
+            <!-- <div class="sider-container">
                 <SideComp></SideComp>
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -53,12 +53,12 @@ import SideComp from '@/components/common/SideComp.vue';
 
         @media (min-width: 1000px) {
             .main-container {
-                flex: 0.8;
+                flex: 1;
             }
 
-            .sider-container {
-                flex: 0.2;
-            }
+            // .sider-container {
+            //     flex: 0.2;
+            // }
         }
 
         @media (max-width: 999px) {

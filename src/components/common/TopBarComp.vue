@@ -21,11 +21,12 @@
                 <router-link to="/link" class="header-menu-item">
                     <api-filled /> 友链
                 </router-link>
-                <router-link to="/login" class="header-menu-item" v-if="store.userInfo.id == null">
+                <!-- v-if="store.userInfo.id == null -->
+                <router-link to="/login" class="header-menu-item">
                     <UserOutlined /> 登录
                 </router-link>
-                <router-link to="/setting" class="header-menu-item" v-if="store.userInfo.id != null">
-                    <setting-filled /> 设置
+                <router-link to="/uploadProblem" class="header-menu-item" v-if="store.userInfo.id != null">
+                    <setting-filled /> 管理
                 </router-link>
                 <router-link to="/setting" class="header-menu-item" v-if="store.userInfo.id != null">
                     <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />

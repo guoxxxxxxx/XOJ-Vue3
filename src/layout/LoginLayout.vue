@@ -36,7 +36,7 @@
                     <div id="flex-container">
                         <div class="input-field" id="val-code-input" :class="{ 'error': !validCode }">
                             <i class="fas fa-code"></i>
-                            <input type="text" placeholder="验证码" v-model="authCodeDTO.code" />
+                            <input type="text" placeholder="验证码" v-model="authCodeDTO.authCode" />
                         </div>
                         <div id="val-code-container">
                             <button class="btn" id="val-code-btn" :disabled="disabled" @click="sendValCode"
@@ -129,7 +129,7 @@ const switchToSignInMode = () => {
 // 发送验证码
 const authCodeDTO = reactive({
     email: "",
-    code: "",
+    authCode: "",
     password: "",
     mode: 0
 })
@@ -155,14 +155,20 @@ const sendValCode = () => {
         }, 1000);
         if (sub_title.value === "注 册") {
             // 向后端服务器发送验证码请求
-            request.post("/account/auth/sendCode", authCodeDTO).then(resp => {
+            request.get("/user/registerSendAuthCode", {
+                params: {
+                    email: authCodeDTO.email
+                }
+            }).then(resp => {
                 if (resp.data.status == 200) {
                     ElMessage.success("验证码发送成功")
                 }
             })
         } else if (sub_title.value === "找 回 密 码") {
             // 向后端服务器发送找回密码消息
-            request.post("/account/auth/sendCode", authCodeDTO).then(resp => {
+            request.get("/auth/getRetrievePasswordAuthCode", {
+                params: {email: authCodeDTO.email}
+            }).then(resp => {
                 if (resp.data.status == 200) {
                     ElMessage.success("验证码发送成功")
                 }
@@ -175,10 +181,10 @@ const sendValCode = () => {
 const register_retrieve = () => {
     validateEmail(authCodeDTO.email);
     validatePwd(authCodeDTO.password);
-    validateCode(authCodeDTO.code);
+    validateCode(authCodeDTO.authCode);
     if (sub_title.value === "注 册") {
-        if (validEmail.value && validPwd.value && authCodeDTO.code.length > 0) {
-            request.post("/account/auth/register", authCodeDTO).then((resp) => {
+        if (validEmail.value && validPwd.value && authCodeDTO.authCode.length > 0) {
+            request.post("/user/register", authCodeDTO).then((resp) => {
                 if (resp.data.status == 200) {
                     ElMessage.success("注册成功");
                     switchToSignInMode();   // 跳转到登录界面
@@ -189,8 +195,12 @@ const register_retrieve = () => {
             ElMessage.error("请输入完整信息")
         }
     } else if (sub_title.value === "找 回 密 码") {
-        if (validEmail.value && validPwd.value && authCodeDTO.code.length > 0) {
-            request.post("/account/auth/retrieve", authCodeDTO).then((resp) => {
+        if (validEmail.value && validPwd.value && authCodeDTO.authCode.length > 0) {
+            request.put("/auth/retrievePassword", {
+                email: authCodeDTO.email,
+                authCode: authCodeDTO.authCode,
+                newPassword: authCodeDTO.password
+            }).then((resp) => {
                 if (resp.data.status == 200) {
                     ElMessage.success("修改密码成功");
                     switchToSignInMode();   // 跳转到登录界面
@@ -209,10 +219,10 @@ const login = () => {
     validateEmail(authCodeDTO.email);
     validatePwd(authCodeDTO.password);
     if (validEmail.value && validPwd.value) {
-        request.post("/account/auth/login", authCodeDTO).then(resp => {
+        request.post("/auth/login", authCodeDTO).then(resp => {
             if (resp.data.status == 200) {
                 ElMessage.success("登录成功");
-                store.saveUserInfo(resp.data.data.id, resp.data.data.username, resp.data.data.nickname,
+                store.saveUserInfo(resp.data.data.id, resp.data.data.token, resp.data.data.nickname,
                     resp.data.data.studentId, resp.data.data.faculty, resp.data.data.className, resp.data.data.gender, resp.data.data.authority,
                     resp.data.data.role);
             }
