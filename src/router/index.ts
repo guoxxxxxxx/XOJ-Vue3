@@ -1,22 +1,36 @@
-// import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
-// const router = createRouter({
-//   history: createWebHistory(import.meta.env.BASE_URL),
-//   routes: [
-//     {
-//       path: '/',
-//       name: 'home',
-//       component: 
-//     },
-//     {
-//       path: '/about',
-//       name: 'about',
-//       // route level code-splitting
-//       // this generates a separate chunk (About.[hash].js) for this route
-//       // which is lazy-loaded when the route is visited.
-//       component: () => import('../views/AboutView.vue')
-//     }
-//   ]
-// })
+const router = createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: [
+        {
+            path: '/',
+            name: 'home',
+            component: () => import("@/layout/HomePageLayout.vue"),
+            children: [
+                {
+                    path: "/question",
+                    component: () => import("@/components/question/QuestionMainComp.vue")
+                }
+            ]
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: () => import('@/layout/LoginLayout.vue')
+        },
+        {
+            path: '/fullPage',
+            name: 'fullPage',
+            component: () => import('@/layout/FullPageLayout.vue'),
+            children: [
+                {
+                    path: "/uploadProblem",
+                    component: () => import("@/components/manage/UploadProblemComp.vue")
+                }
+            ]
+        }
+    ]
+})
 
-// export default router
+export default router

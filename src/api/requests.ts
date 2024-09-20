@@ -1,4 +1,4 @@
-const baseUrl = "http://127.0.0.1:88/api"
+const baseUrl = "http://127.0.0.1:31500/api/xoj/v1"
 
 // 请求加载动画
 import axios from "axios";
@@ -14,7 +14,7 @@ request.interceptors.response.use(
     function (response) {
         const status = response.data.status;
         if (response.data && status >= 400) {
-            ElMessage.error(response.data.status + " : " + response.data.msg);
+            ElMessage.error(response.data.status + " : " + response.data.message);
         }
         return response;
     },

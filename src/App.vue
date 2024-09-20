@@ -1,10 +1,9 @@
 <template>
-<login-comp></login-comp>
+    <router-view></router-view>
 </template>
 
 <script setup lang="ts">
 import request from './api/requests';
-import LoginComp from './components/login/LoginComp.vue';
 
 </script>
 
